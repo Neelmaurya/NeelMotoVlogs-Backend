@@ -1,0 +1,13 @@
+django
+djangorestframework
+django-cors-headers
+djangorestframework-simplejwt
+Pillow
+python-dotenv
+requests
+django-extensions
+django-filter
+django-ckeditor-5
+psycopg2-binary
+celery
+redis
