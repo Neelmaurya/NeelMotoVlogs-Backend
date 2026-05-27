@@ -4,7 +4,7 @@ A fully free and open-source travel creator platform for travel vloggers and blo
 
 ## Tech Stack
 - **Frontend**: Next.js 15, React, Tailwind CSS, Framer Motion, Axios.
-- **Backend**: Django 5.x, Django REST Framework, JWT (SimpleJWT), SQLite/PostgreSQL.
+- **Backend**: FastAPI, SQLAlchemy, Pydantic, JWT (Jose), SQLAdmin, SQLite/PostgreSQL.
 - **Media**: Local storage (dev), Cloud-ready structure.
 
 ## Features
@@ -32,8 +32,7 @@ A fully free and open-source travel creator platform for travel vloggers and blo
      - *Git Bash / MINGW64*: `source venv/Scripts/activate`
      - *CMD*: `.\venv\Scripts\activate.bat`
    - `pip install -r requirements.txt`
-   - `python manage.py migrate`
-   - `python manage.py runserver`
+   - `uvicorn main:app --reload`
 3. **Setup Frontend**:
    - `cd frontend`
    - `npm install`

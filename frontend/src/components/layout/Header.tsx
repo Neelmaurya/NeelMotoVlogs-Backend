@@ -39,6 +39,7 @@ const Header = () => {
             <Link href="/blogs" className="text-zinc-400 hover:text-white transition-colors">Blogs</Link>
             <Link href="/videos" className="text-zinc-400 hover:text-white transition-colors">Videos</Link>
             <Link href="/destinations" className="text-zinc-400 hover:text-white transition-colors">Destinations</Link>
+            <Link href="/bike-review" className="text-zinc-400 hover:text-orange-500 transition-colors font-bold">AI Review</Link>
             <Link href="/contact" className="text-zinc-400 hover:text-white transition-colors">Contact</Link>
           </nav>
 
@@ -89,6 +90,7 @@ const Header = () => {
               <Link href="/blogs" className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white">Blogs</Link>
               <Link href="/videos" className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white">Videos</Link>
               <Link href="/destinations" className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white">Destinations</Link>
+              <Link href="/bike-review" className="block rounded-md px-3 py-2 text-base font-bold text-orange-500 hover:bg-zinc-800">AI Review</Link>
               <Link href="/contact" className="block rounded-md px-3 py-2 text-base font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white">Contact</Link>
               {isAuthenticated ? (
                 <Link href="/dashboard" className="block rounded-md px-3 py-2 text-base font-medium text-orange-500">Dashboard</Link>

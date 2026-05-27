@@ -29,7 +29,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = Cookies.get('refresh_token');
-        const response = await axios.post(`${API_URL}token/refresh/`, {
+        const response = await axios.post(`${API_URL}auth/refresh/`, {
           refresh: refreshToken,
         });
         const { access } = response.data;
