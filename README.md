@@ -1,51 +1,219 @@
-# Neel_MotoVlogs - Travel Creator Platform
+# 🏍️ Neel MotoVlogs — AI-Powered Travel Creator Platform
 
-A fully free and open-source travel creator platform for travel vloggers and bloggers.
+A fully open-source, AI-powered platform built for motorcycle travel vloggers and bloggers. Features a FastAPI backend, a Next.js frontend, AI Bike Reviews, an AI Route Planner, and a full CMS dashboard.
 
-## Tech Stack
-- **Frontend**: Next.js 15, React, Tailwind CSS, Framer Motion, Axios.
-- **Backend**: FastAPI, SQLAlchemy, Pydantic, JWT (Jose), SQLAdmin, SQLite/PostgreSQL.
-- **Media**: Local storage (dev), Cloud-ready structure.
+---
 
-## Features
-- ✅ **Personal Brand Website**: Premium design with dark mode.
-- ✅ **Blog System**: Rich text editor, SEO metadata, categories, tags.
-- ✅ **Video Management**: YouTube integration with auto-fetching metadata.
-- ✅ **Destination System**: Country -> State -> City hierarchy.
-- ✅ **Authentication**: JWT Login/Signup with role-based access.
-- ✅ **CMS Dashboard**: Modern analytics and content management.
-- ✅ **AI-Ready Architecture**: Modular structure for future ML integrations.
+## 🌐 Live Deployment
 
-## Getting Started
+| Service    | Platform | URL                                               |
+|------------|----------|---------------------------------------------------|
+| Frontend   | Vercel   | [neelmotovlogs.vercel.app](https://neelmotovlogs.vercel.app) |
+| Backend API | Railway  | [neelmotovlogs-production.up.railway.app](https://neelmotovlogs-production.up.railway.app) |
+| API Docs   | Railway  | [/docs](https://neelmotovlogs-production.up.railway.app/docs) |
+| Admin Panel | Railway  | [/admin](https://neelmotovlogs-production.up.railway.app/admin) |
+
+---
+
+## ✨ Features
+
+- ✅ **Personal Brand Website** — Premium dark-mode design with animations.
+- ✅ **AI Bike Review Generator** — Auto-generates in-depth bike reviews using Wikipedia, Reddit, YouTube transcripts, and Groq AI.
+- ✅ **AI Route Planner** — Intelligent moto-trip route generator with real-time weather, AQI, emergency info, and photography spots.
+- ✅ **Blog System** — Full CMS with rich text editor, SEO metadata, categories, and tags.
+- ✅ **Video Management** — YouTube integration with auto-fetching of video metadata.
+- ✅ **Destination System** — Hierarchical Country → State → City structure.
+- ✅ **Authentication** — JWT-based Login/Signup with role-based access control.
+- ✅ **CMS Dashboard** — Analytics and full content management interface.
+- ✅ **Image Proxy** — Secure server-side proxy for external bike images.
+- ✅ **SQLAdmin Panel** — Backend admin UI for managing users, blogs, videos, and destinations.
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+| Technology          | Purpose                                |
+|---------------------|----------------------------------------|
+| **Next.js 16**      | Framework, SSR, file-based routing     |
+| **React 19**        | UI component library                   |
+| **Tailwind CSS 4**  | Utility-first styling                  |
+| **Framer Motion**   | Animations and page transitions        |
+| **Redux Toolkit**   | Global state management                |
+| **Axios**           | HTTP client                            |
+| **React Hook Form** | Form state management                  |
+| **Zod**             | Schema validation                      |
+| **Lucide React**    | Icon library                           |
+| **js-cookie**       | Cookie management for JWT tokens       |
+
+### Backend
+| Technology            | Purpose                                    |
+|-----------------------|--------------------------------------------|
+| **FastAPI**           | Async REST API framework                   |
+| **SQLAlchemy**        | ORM for database models                    |
+| **PostgreSQL**        | Production relational database             |
+| **Redis**             | Caching layer for API responses            |
+| **Pydantic**          | Data validation and settings management    |
+| **python-jose**       | JWT token generation and verification      |
+| **Passlib (bcrypt)**  | Password hashing                           |
+| **SQLAdmin**          | Admin panel UI                             |
+| **Groq AI**           | LLM API for generating AI reviews/routes   |
+| **BeautifulSoup4**    | Wikipedia web scraping                     |
+| **PRAW (Reddit)**     | Reddit API for owner opinions              |
+| **youtube-transcript-api** | YouTube transcript fetching          |
+| **Pillow / OpenCV**   | Image processing                           |
+| **uvicorn**           | ASGI server                                |
+
+### Infrastructure
+| Component       | Platform              |
+|-----------------|-----------------------|
+| Frontend hosting | **Vercel**           |
+| Backend hosting  | **Railway**          |
+| Database         | **Railway PostgreSQL** |
+| Cache            | **Railway Redis**    |
+
+---
+
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
-- Python 3.10+
-- Node.js 18+
+- **Python 3.12+**
+- **Node.js 20+**
+- **PostgreSQL** running locally (or use the Docker Compose setup)
+- **Redis** running locally (or use the Docker Compose setup)
 
-### Quick Start
-1. **Clone the repository**
-2. **Setup Backend**:
-   - `cd backend`
-   - `python -m venv venv`
-   - **Activate Virtual Environment**:
-     - *PowerShell*: `.\venv\Scripts\Activate.ps1`
-     - *Git Bash / MINGW64*: `source venv/Scripts/activate`
-     - *CMD*: `.\venv\Scripts\activate.bat`
-   - `pip install -r requirements.txt`
-   - `uvicorn main:app --reload`
-3. **Setup Frontend**:
-   - `cd frontend`
-   - `npm install`
-   - `npm run dev`
+### Option A — Docker Compose (Recommended)
+Spin up the backend, PostgreSQL, and Redis together:
 
-### Admin Access
-- URL: `http://localhost:8000/admin`
-- Email: `admin@neelmotovlogs.com`
-- Password: `adminpassword`
+```bash
+docker-compose up --build
+```
 
-## Packages and Modules Used
+Then separately start the frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Frontend (Next.js ecosystem)
+### Option B — Manual Setup
+
+#### Backend
+```bash
+cd backend
+
+# Create and activate virtual environment
+python -m venv venv
+
+# PowerShell
+.\venv\Scripts\Activate.ps1
+
+# Git Bash / MINGW64
+source venv/Scripts/activate
+
+# CMD
+.\venv\Scripts\activate.bat
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start development server
+uvicorn main:app --reload
+```
+
+#### Frontend
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Set local environment variable
+# Create frontend/.env.local with:
+# NEXT_PUBLIC_API_URL=http://localhost:8000/api
+
+# Start development server
+npm run dev
+```
+
+### Admin Access (Local)
+| Field    | Value                       |
+|----------|-----------------------------|
+| URL      | `http://localhost:8000/admin` |
+| Email    | `admin@neelmotovlogs.com`   |
+| Password | `adminpassword`             |
+
+> ⚠️ **Important**: Run `python seed_admin.py` from the `backend` directory to create the admin user on first setup.
+
+---
+
+## 📦 Environment Variables
+
+### Backend (`backend/.env`)
+
+| Variable            | Description                                |
+|---------------------|--------------------------------------------|
+| `SECRET_KEY`        | JWT secret key                             |
+| `DB_NAME`           | PostgreSQL database name                   |
+| `DB_USER`           | PostgreSQL username                        |
+| `DB_PASSWORD`       | PostgreSQL password                        |
+| `DB_HOST`           | PostgreSQL host                            |
+| `DB_PORT`           | PostgreSQL port                            |
+| `REDIS_URL`         | Redis connection URL                       |
+| `GROQ_API_KEY`      | Groq AI API key for review generation      |
+| `YOUTUBE_API_KEY`   | YouTube Data API v3 key                    |
+| `REDDIT_CLIENT_ID`  | Reddit app client ID                       |
+| `REDDIT_CLIENT_SECRET` | Reddit app client secret              |
+| `OPENWEATHER_API_KEY` | OpenWeather API key (optional)          |
+| `ORS_API_KEY`       | OpenRouteService key for route planning (optional) |
+| `OPENAQ_API_KEY`    | OpenAQ key for AQI data (optional)         |
+
+### Frontend (`frontend/.env.production`)
+
+| Variable              | Description                                |
+|-----------------------|--------------------------------------------|
+| `NEXT_PUBLIC_API_URL` | Full URL to the backend API (e.g., `https://neelmotovlogs-production.up.railway.app/api`) |
+
+---
+
+## 🤖 AI Bike Review Module Architecture
+
+The Bike Review system uses asynchronous task processing and multiple data sources to generate comprehensive AI-driven reviews.
+
+### Backend Process
+1. **`POST /api/ai-reviews/generate/`** — Checks the database cache first. If not cached, spawns a FastAPI `BackgroundTask` and returns a `job_id` immediately.
+2. **Background Pipeline** — Concurrently scrapes Wikipedia (specs/images), Reddit (owner opinions), and YouTube (transcript reviews) using `asyncio.gather()` and a `ThreadPoolExecutor`.
+3. **Groq AI** — The aggregated raw data is sent to Groq's LLM to produce structured JSON (scores, pros/cons, specs, verdict).
+4. **`GET /api/ai-reviews/status/{job_id}`** — The client polls this endpoint every 4 seconds until status is `completed` or `failed`.
+
+### Frontend Process
+1. User types a bike name and clicks **Generate**.
+2. `useBikeReview.ts` hook calls the generate endpoint. If `status: cached`, shows the review instantly. If `status: generating`, initiates polling.
+3. `LoadingScreen` component cycles through messages ("Fetching bike specs...", "Searching Reddit...") while waiting.
+4. On `status: completed`, Framer Motion animates in the full review page.
+
+---
+
+## 🗺️ AI Route Planner Module Architecture
+
+The Route Planner generates intelligent, data-rich moto-trip itineraries.
+
+### Backend Process
+1. **`POST /api/routes/generate/`** — Accepts source, destination, transport mode, and user preferences. Checks cache first, then spawns a background job.
+2. **Background Pipeline** — Concurrently fetches:
+   - **Route geometry** from OSRM / OpenRouteService
+   - **Weather data** from OpenWeatherMap
+   - **AQI data** from OpenAQ / OpenWeatherMap fallback
+   - **Places** (hotels, fuel stations, hospitals) from OpenStreetMap Nominatim
+   - **Emergency info** scraped from Wikipedia
+3. **Groq AI** — Generates a day-by-day itinerary, packing list, and travel tips from the aggregated data.
+4. **`GET /api/routes/status/{job_id}`** — Polled by the frontend every 3 seconds.
+
+---
+
+## 🧩 Packages & Modules Summary
+
+### Frontend
 - **Framework & Core:** `next`, `react`, `react-dom`
 - **State Management:** `@reduxjs/toolkit`, `react-redux`
 - **Styling & UI:** `tailwindcss`, `framer-motion`, `clsx`, `tailwind-merge`, `lucide-react`
@@ -53,74 +221,44 @@ A fully free and open-source travel creator platform for travel vloggers and blo
 - **HTTP Client:** `axios`
 - **Utilities:** `date-fns`, `js-cookie`, `nprogress`
 
-### Backend (FastAPI & Python ecosystem)
+### Backend
 - **Web Framework & Server:** `fastapi`, `uvicorn`, `starlette`
-- **Database & ORM:** `SQLAlchemy`, `alembic`, `psycopg2-binary`
+- **Database & ORM:** `sqlalchemy`, `psycopg2-binary`
 - **Data Validation:** `pydantic`, `pydantic-settings`
 - **Authentication & Security:** `python-jose`, `passlib`, `bcrypt`
 - **Admin Panel:** `sqladmin`
-- **Background Tasks & Caching:** `celery`, `redis`
+- **Caching:** `redis`
+- **AI & NLP:** `groq`, `youtube-transcript-api`, `vaderSentiment`
+- **Web Scraping / Requests:** `beautifulsoup4`, `requests`, `praw`
 - **Media & Processing:** `yt-dlp`, `openai-whisper`, `ffmpeg-python`, `opencv-python`, `pillow`
-- **NLP & AI:** `spacy`, `vaderSentiment`
-- **Web Scraping / Requests:** `beautifulsoup4`, `requests`
 
-## Interview Cross-Questions and Answers (Tech Stack Decisions)
+---
 
-**Q1: Why did you choose Next.js over vanilla React for the frontend?**
-**Answer:** Next.js provides out-of-the-box Server-Side Rendering (SSR) and Static Site Generation (SSG), which are critical for SEO in a blog/vlog platform. It also offers built-in file-system routing, image optimization, and better performance for first-page loads compared to standard client-side rendered React apps.
+## 💬 Tech Stack Decision Q&A
 
-**Q2: Why use FastAPI instead of Django or Flask for the backend?**
-**Answer:** FastAPI is built on ASGI and uses async programming, making it incredibly fast and capable of handling high concurrent loads (useful for media-heavy platforms). It also provides automatic interactive API documentation (Swagger UI) and seamless data validation using Pydantic, which significantly speeds up development and reduces bugs.
+**Q: Why Next.js over vanilla React?**
+Next.js provides SSR and SSG which are critical for SEO in a blog/vlog platform. It also offers built-in routing, image optimization, and better first-page load performance.
 
-**Q3: For state management, why Redux Toolkit instead of React Context?**
-**Answer:** While React Context is good for simple prop-drilling, a media/blog platform with CMS features handles complex global states (user sessions, draft saving, video processing statuses). Redux Toolkit provides a scalable, structured approach with built-in optimizations to prevent unnecessary re-renders that Context often suffers from.
+**Q: Why FastAPI instead of Django?**
+FastAPI is built on ASGI and uses async programming, making it incredibly fast for high concurrent loads. It provides automatic Swagger docs and seamless Pydantic validation, speeding up development significantly.
 
-**Q4: Why combine Tailwind CSS with Framer Motion?**
-**Answer:** Tailwind CSS allows for rapid, utility-first UI development with a consistent design system. However, it lacks complex animation capabilities. Framer Motion bridges this gap by providing declarative, physics-based animations, allowing us to build a premium, dynamic, and interactive user experience.
+**Q: Why Redux Toolkit over React Context?**
+A CMS platform handles complex global states (user sessions, draft saving, video statuses). Redux Toolkit provides a scalable, structured approach with built-in optimizations to prevent unnecessary re-renders.
 
-**Q5: Why did you choose SQLAlchemy as your ORM?**
-**Answer:** SQLAlchemy is robust, highly flexible, and supports complex queries and relationships (like Country -> State -> City hierarchies). It is database-agnostic, meaning we can easily switch between SQLite for local development and PostgreSQL for production without rewriting our data access layer.
+**Q: Why combine Tailwind CSS with Framer Motion?**
+Tailwind enables rapid utility-first UI development. Framer Motion adds declarative, physics-based animations that Tailwind alone cannot provide, creating a premium interactive experience.
 
-**Q6: What is the role of Zod alongside React Hook Form?**
-**Answer:** React Hook Form handles the form state and submission efficiently with minimal re-renders. Zod is a schema declaration and validation library. Together, they allow us to define strict validation rules for our inputs (e.g., strong passwords, valid URLs) and catch errors before they even reach our API, enhancing the user experience and data integrity.
+**Q: Why SQLAlchemy?**
+SQLAlchemy is database-agnostic, flexible, and supports complex queries and relationships (Country → State → City). It allows seamless switching between SQLite (dev) and PostgreSQL (production).
 
-**Q7: Why use Celery and Redis in the backend?**
-**Answer:** The platform requires heavy background processing tasks, such as fetching YouTube metadata, transcribing audio with Whisper, or processing images/videos. Running these synchronously would block the main API threads. Celery manages these background queues, and Redis acts as the fast, in-memory message broker to coordinate them.
+**Q: Why Zod with React Hook Form?**
+React Hook Form manages form state efficiently with minimal re-renders. Zod defines strict validation schemas, catching errors client-side before they ever reach the API.
 
-**Q8: Why use both Passlib (bcrypt) and python-jose?**
-**Answer:** Passlib with bcrypt is used to securely hash and verify user passwords so we never store plain-text passwords in our database. `python-jose` is used to generate and decode JSON Web Tokens (JWT). JWTs are stateless and allow us to authenticate user API requests securely without maintaining session states on the server.
+**Q: Why Groq AI for the review generator?**
+Groq provides extremely fast inference (tokens per second) for LLM-based structured JSON generation, which is critical for a good user experience when generating bike reviews in near real-time.
 
-## AI Bike Review Module Architecture
+---
 
-The Bike Review system leverages asynchronous task processing and multiple data sources to generate comprehensive AI-driven reviews without blocking the user interface.
+## 📄 License
 
-### Backend Process (FastAPI & Background Tasks)
-1. **Initial Request (`POST /api/ai-reviews/generate/`)**:
-   - The system first checks the `BikeReviewCache` (Database). If the review already exists, it returns immediately with `status: "cached"`.
-   - If not cached, it checks if a generation job for this bike is already in progress (`GenerationJob` table) to avoid duplicate processing.
-   - If no job exists, a new UUID `job_id` is generated, stored as `pending` in the database, and a FastAPI `BackgroundTask` (`run_generation_pipeline`) is triggered. The API immediately returns the `job_id` and `status: "generating"`.
-2. **Background Generation Pipeline**:
-   - The job status updates to `processing`.
-   - `asyncio.gather()` with a `ThreadPoolExecutor` is used to scrape data concurrently from multiple sources:
-     - **Wikipedia**: Fetches bike specs and images.
-     - **Reddit**: Fetches real owner opinions and threads.
-     - **YouTube**: Transcribes relevant video reviews using `youtube-transcript-api`.
-   - The aggregated raw data is sent to the AI Model (via `services/groq_ai.py`) to generate structured JSON data (scores, pros/cons, specs, verdict).
-   - Once completed, the final structured review is saved to the database cache, and the `GenerationJob` status is marked as `completed` with the result payload.
-3. **Status Polling (`GET /api/ai-reviews/status/{job_id}`)**:
-   - The client polls this endpoint to check the job status (`processing`, `completed`, or `failed`). If completed, it returns the final AI generated data.
-
-### Frontend Process (Next.js & React Hooks)
-1. **User Interaction (`page.tsx`)**:
-   - The user enters a bike name in the search bar and clicks Generate.
-2. **State Management & Polling (`useBikeReview.ts` hook)**:
-   - The hook calls the `/generate/` endpoint. If the response status is `cached`, the data is immediately set into the state.
-   - If the response is `generating`, the hook extracts the `job_id` and initiates a polling interval (`setInterval`).
-3. **Loading State & Polling Loop**:
-   - Every 4 seconds, the hook polls the `/status/{job_id}` endpoint.
-   - While polling, the UI displays a `LoadingScreen` component that cycles through different loading messages ("Fetching bike specs...", "Searching Reddit...", etc.) to keep the user engaged.
-4. **Completion & Rendering**:
-   - Once the polling endpoint returns `status: "completed"`, the interval is cleared (`stopPolling`), the data state is populated, and Framer Motion handles the smooth transition from the loading screen to displaying the full AI review (Gallery, Performance Scores, Verdict, etc.).
-
-## License
-Open Source (MIT)
+Open Source — MIT License
