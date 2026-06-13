@@ -134,6 +134,11 @@ async def proxy_image(url: str):
         "Connection": "keep-alive",
     }
 
+    if "wikimedia.org" in hostname:
+        # Wikimedia blocks generic browser user agents when fetching in bulk
+        proxy_headers["User-Agent"] = "NeelMotoVlogsBot/1.0 (admin@neelmotovlogs.com)"
+        proxy_headers["Referer"] = "https://en.wikipedia.org/"
+
     try:
         resp = requests.get(url, headers=proxy_headers, timeout=15, stream=True)
         if resp.status_code != 200:

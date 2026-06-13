@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqladmin import Admin, ModelView
 from database import engine, Base
-from routes import auth, users, blogs, videos, destinations, dashboard, ai_reviews, image_proxy
+from routes import auth, users, blogs, videos, destinations, dashboard, ai_reviews, image_proxy, route_planner
 from models import User, Blog, Category, Tag, Video, Country
 from admin_auth import authentication_backend
 from starlette.middleware.sessions import SessionMiddleware
@@ -67,6 +67,7 @@ app.include_router(destinations.router, prefix="/api")
 app.include_router(dashboard.router, prefix="/api")
 app.include_router(ai_reviews.router, prefix="/api")
 app.include_router(image_proxy.router, prefix="/api")
+app.include_router(route_planner.router, prefix="/api")
 
 @app.get("/")
 async def root():

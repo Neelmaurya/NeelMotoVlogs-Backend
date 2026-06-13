@@ -57,40 +57,48 @@ def make_high_res_aepl(url: str) -> str:
         return re.sub(r'/\d+x\d+/', '/1056x594/', url)
     return url
 
-def is_valid_image_url(url: str, bike_name: str) -> bool:
+def is_valid_image_url(url: str, bike_name: str, check_filename: bool = False) -> bool:
     """Filters out icons, backgrounds, default placeholders and competitor brand leaks."""
     url_lower = url.lower()
 
-    # Always trust Wikimedia / Wikipedia images — they are manually curated and
-    # do NOT follow the BikeWale path-pattern rules below.
-    TRUSTED_CDN_PREFIXES = (
-        "https://upload.wikimedia.org/",
+    # DuckDuckGo image proxy URLs are always safe (they point to external content)
+    DDG_PREFIXES = (
         "https://external-content.duckduckgo.com/",
         "https://images.duckduckgo.com/",
     )
-    if any(url.startswith(prefix) for prefix in TRUSTED_CDN_PREFIXES):
+    if any(url.startswith(prefix) for prefix in DDG_PREFIXES):
         return True
-    
+
     # Skip UI assets, banners, sprites and icons
     if any(k in url_lower for k in [
-        "static", "sprite", "icon", "logo", "bg", "default", "pattern", 
+        "static", "sprite", "icon", "logo", "bg", "default", "pattern",
         "banner", "loader", "swatch", "avatar", "advertisement", "header", "footer"
     ]):
         return False
-        
-    # We want to make sure the image corresponds to the bike name words (excluding common terms)
+
+    # Build normalized keyword list from the bike name
     clean_name = clean_and_normalize_bike_name(bike_name)
     words = [w for w in _slugify(clean_name).split("-") if w not in [
         "motorcycle", "bike", "new", "standard", "abs", "edition", "bs6", "fi", "dual", "channel"
     ]]
-    
-    # For BikeWale images, ensure the model keywords (after brand) are matching the image URL
+
+    # For Wikimedia images (Wikipedia), validate the filename against model keywords.
+    # The filename is the last path segment, e.g. "Bajaj_Dominar_400_2019.jpg".
+    # We check that at least one model keyword (all words after brand) appears in the filename.
+    if "upload.wikimedia.org" in url_lower and check_filename and len(words) > 1:
+        # Extract filename without extension from the URL path
+        path_part = url_lower.split("?")[0]  # strip query params
+        filename = path_part.split("/")[-1]   # last segment
+        model_words = words[1:]  # skip brand word
+        if not any(w in filename for w in model_words):
+            return False
+
+    # For BikeWale images, ensure the model keywords (after brand) appear in the URL path
     if "imgd.aeplcdn.com" in url_lower and len(words) > 1:
         model_words = words[1:]
-        # Ensure at least one model identifier (like 'dominar', 'classic') is inside the path
         if not any(w in url_lower for w in model_words):
             return False
-            
+
     return True
 
 # ─── Brand URL builders ─────────────────────────────────────────────────────────
@@ -413,13 +421,19 @@ def fetch_wikipedia_images_rest(bike_name: str) -> list:
     try:
         clean_name = clean_and_normalize_bike_name(bike_name)
 
+        # Build model keyword list for page-title validation (words after the brand)
+        name_words = [w for w in _slugify(clean_name).split("-") if w not in [
+            "motorcycle", "bike", "new", "standard", "abs", "edition", "bs6", "fi", "dual", "channel"
+        ]]
+        model_keywords = name_words[1:] if len(name_words) > 1 else name_words  # skip brand word
+
         # 1. Find the best-matching Wikipedia page title
         search_resp = requests.get(
             "https://en.wikipedia.org/w/api.php",
             params={
                 "action": "query", "list": "search",
                 "srsearch": f"{clean_name} motorcycle",
-                "format": "json", "srlimit": 3,
+                "format": "json", "srlimit": 5,
             },
             headers=headers, timeout=8
         ).json()
@@ -428,8 +442,21 @@ def fetch_wikipedia_images_rest(bike_name: str) -> list:
         if not results:
             return []
 
-        page_title = results[0]["title"]
-        print(f"[WikiREST] Found page: '{page_title}' for '{clean_name}'")
+        # Pick the first result whose title contains at least one model keyword.
+        # This avoids landing on a generic brand article (e.g. "Bajaj Auto").
+        page_title = None
+        for result in results:
+            title_lower = result["title"].lower()
+            if any(kw in title_lower for kw in model_keywords):
+                page_title = result["title"]
+                break
+
+        # Fallback: use the top result even if title doesn't match (better than nothing)
+        if not page_title:
+            page_title = results[0]["title"]
+            print(f"[WikiREST] No exact title match — using top result: '{page_title}'")
+        else:
+            print(f"[WikiREST] Matched page: '{page_title}' for '{clean_name}'")
 
         # 2. Fetch the media list for that page
         encoded_title = requests.utils.quote(page_title, safe="")
@@ -480,6 +507,12 @@ def fetch_wikipedia_images_rest(bike_name: str) -> list:
             src_lower = src.lower()
             if not any(src_lower.endswith(e) or f".{e}?" in src_lower
                        for e in ["jpg", "jpeg", "png", "webp"]):
+                continue
+
+            # Validate the image filename against model keywords to reject unrelated
+            # bike photos that may appear in a multi-model brand article.
+            if not is_valid_image_url(src, clean_name, check_filename=True):
+                print(f"[WikiREST] Skipped irrelevant image: {src.split('/')[-1]}")
                 continue
 
             if src not in images:

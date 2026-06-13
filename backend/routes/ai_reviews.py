@@ -90,6 +90,25 @@ async def get_popular_bikes(db: Session = Depends(get_db)):
         "cached": True
     } for b in popular]
 
+@router.delete("/cache/{bike_name}")
+async def clear_bike_cache(bike_name: str, db: Session = Depends(get_db)):
+    """Bust the cached review for a specific bike so it regenerates fresh."""
+    from cache import normalize_bike_name
+    key = normalize_bike_name(bike_name)
+    entry = db.query(BikeReviewCache).filter(BikeReviewCache.bike_name_key == key).first()
+    if entry:
+        db.delete(entry)
+        db.commit()
+        return {"status": "cleared", "bike_name": bike_name}
+    return {"status": "not_found", "bike_name": bike_name}
+
+@router.delete("/cache-all")
+async def clear_all_cache(db: Session = Depends(get_db)):
+    """Wipe the entire bike review cache — useful after a fix."""
+    count = db.query(BikeReviewCache).delete()
+    db.commit()
+    return {"status": "cleared", "deleted_count": count}
+
 async def run_generation_pipeline(job_id: str, bike_name: str):
     db = next(get_db())
 

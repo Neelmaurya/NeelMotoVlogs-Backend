@@ -34,13 +34,14 @@ def get_cached_review(db: Session, bike_name: str) -> dict | None:
 
     # Self-healing: Check if the cache contains bad UI images or icons from old runs
     from services.wikipedia import is_valid_image_url, make_high_res_aepl
-    
+
     has_bad_images = False
     for img in cached.images:
-        if not is_valid_image_url(img, cached.bike_name):
+        # check_filename=True ensures Wikimedia URLs with wrong bike filenames are purged
+        if not is_valid_image_url(img, cached.bike_name, check_filename=True):
             has_bad_images = True
             break
-            
+
     if has_bad_images:
         db.delete(cached)
         db.commit()

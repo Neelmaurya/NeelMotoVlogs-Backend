@@ -1,0 +1,23 @@
+# Ignore local python environment and cache
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local database and configurations
+.env
+sql_app.db
+db.sqlite3
+
+# Ignore audio files and temporary data
+temp_audio/
+dump.rdb
+
+# Ignore version control and system files
+.git/
+.gitignore
+.vscode/
+.idea/
+.DS_Store

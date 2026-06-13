@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: motovlogs_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: neel_motovlogs_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Sunil@#!2026
+    ports:
+      # Map container port 5432 to host port 5433 (keeps compatibility with local tools/configs)
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d neel_motovlogs_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: motovlogs_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: motovlogs_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    # Load all environment variables from local .env file
+    env_file:
+      - ./backend/.env
+    # Override specific variables to match the container network configuration
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    # Uncomment the volumes below if you want live code reloading during development.
+    # Note: Changes in your local backend/ folder will instantly reflect in the container.
+    # volumes:
+    #   - ./backend:/app
+
+volumes:
+  postgres_data:

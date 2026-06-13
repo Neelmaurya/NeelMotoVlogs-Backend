@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     REDDIT_CLIENT_ID: str = os.getenv("REDDIT_CLIENT_ID", "")
     REDDIT_CLIENT_SECRET: str = os.getenv("REDDIT_CLIENT_SECRET", "")
     YOUTUBE_API_KEY: str = os.getenv("YOUTUBE_API_KEY", "")
+    ORS_API_KEY: str = os.getenv("ORS_API_KEY", "")
+    OPENWEATHER_API_KEY: str = os.getenv("OPENWEATHER_API_KEY", "")
+    OPENAQ_API_KEY: str = os.getenv("OPENAQ_API_KEY", "")
+
 
     @property
     def DATABASE_URL(self) -> str:
