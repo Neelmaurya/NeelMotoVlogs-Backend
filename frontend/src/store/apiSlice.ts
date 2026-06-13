@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/',
+  baseUrl: typeof window !== 'undefined'
+    ? (process.env.NEXT_PUBLIC_API_URL || '/api/')
+    : (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/'),
   prepareHeaders: (headers) => {
     const token = Cookies.get('access_token');
     if (token) {
