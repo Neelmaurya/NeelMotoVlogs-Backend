@@ -4,9 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Strip trailing /api or /api/ so we never get a double /api//api/ path
 // when NEXT_PUBLIC_API_URL already ends with /api/ (as in .env.local)
-const _RAW_BASE = typeof window !== 'undefined'
-  ? (process.env.NEXT_PUBLIC_API_URL || window.location.origin)
-  : (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000');
+const _RAW_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 const API_BASE = _RAW_BASE.replace(/\/api\/?$/, '');
 
 function proxyUrl(src: string): string {
