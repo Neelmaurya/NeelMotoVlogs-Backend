@@ -17,10 +17,10 @@ app = FastAPI(
     version="2.0.0"
 )
 
-# CORS Configuration
+# CORS Configuration — must list explicit origins when allow_credentials=True
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

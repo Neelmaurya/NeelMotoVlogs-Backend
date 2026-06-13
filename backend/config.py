@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     DB_HOST: str = os.getenv("DB_HOST", "localhost")
     DB_PORT: str = os.getenv("DB_PORT", "5432")
     
+    # CORS
+    CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://neelmotovlogs.vercel.app")
+
+    @property
+    def ALLOWED_ORIGINS(self) -> list:
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+
     # External APIs
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
     REDDIT_CLIENT_ID: str = os.getenv("REDDIT_CLIENT_ID", "")
