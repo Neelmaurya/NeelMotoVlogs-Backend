@@ -132,3 +132,5 @@ wrapt==2.1.2
 WTForms==3.1.2
 youtube-transcript-api==1.2.4
 yt-dlp==2026.3.17
+edge-tts
+

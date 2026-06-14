@@ -46,6 +46,30 @@ class Settings(BaseSettings):
     OPENWEATHER_API_KEY: str = os.getenv("OPENWEATHER_API_KEY", "")
     OPENAQ_API_KEY: str = os.getenv("OPENAQ_API_KEY", "")
 
+    # --- AI Story Video Generator ---
+    # Google OAuth
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
+    GOOGLE_CLIENT_SECRET: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
+    GOOGLE_REDIRECT_URI: str = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:8000/auth/google/callback")
+
+    # Facebook OAuth
+    FACEBOOK_APP_ID: str = os.getenv("FACEBOOK_APP_ID", "")
+    FACEBOOK_APP_SECRET: str = os.getenv("FACEBOOK_APP_SECRET", "")
+    FACEBOOK_REDIRECT_URI: str = os.getenv("FACEBOOK_REDIRECT_URI", "http://localhost:8000/auth/facebook/callback")
+
+    # Encryption key for social account tokens (Generate with Fernet.generate_key().decode())
+    # Default is a dummy key to prevent startup failure if not set
+    TOKEN_ENCRYPTION_KEY: str = os.getenv("TOKEN_ENCRYPTION_KEY", "b3VyX3N1cGVyX3NlY3JldF9mZXJuZXRfa2V5X2RvbnRfdXNlX3RoaXM=")
+
+    # Video APIs
+    PEXELS_API_KEY: str = os.getenv("PEXELS_API_KEY", "")
+    PIXABAY_API_KEY: str = os.getenv("PIXABAY_API_KEY", "")
+
+    # Storage Paths
+    AUDIO_OUTPUT_DIR: str = os.getenv("AUDIO_OUTPUT_DIR", "./audio")
+    VIDEO_OUTPUT_DIR: str = os.getenv("VIDEO_OUTPUT_DIR", "./output_videos")
+    TEMP_VIDEO_DIR: str = os.getenv("TEMP_VIDEO_DIR", "./temp_videos")
+
     @property
     def DATABASE_URL(self) -> str:
         # Prefer the full URL injected by Railway (or any PaaS)
