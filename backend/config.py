@@ -17,8 +17,6 @@ class Settings(BaseSettings):
     # --- Database ---
     # Railway provides a full DATABASE_URL — use it directly if present.
     # Fallback: build from individual parts for local Docker / manual setup.
-    _DATABASE_URL_ENV: str = os.getenv("DATABASE_URL", "")
-
     DB_NAME: str = os.getenv("DB_NAME", "neel_motovlogs_db")
     DB_USER: str = os.getenv("DB_USER", "postgres")
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")
@@ -51,12 +49,12 @@ class Settings(BaseSettings):
     @property
     def DATABASE_URL(self) -> str:
         # Prefer the full URL injected by Railway (or any PaaS)
-        if self._DATABASE_URL_ENV:
-            url = self._DATABASE_URL_ENV
+        db_url = os.getenv("DATABASE_URL")
+        if db_url:
             # SQLAlchemy requires 'postgresql://' not 'postgres://'
-            if url.startswith("postgres://"):
-                url = url.replace("postgres://", "postgresql://", 1)
-            return url
+            if db_url.startswith("postgres://"):
+                db_url = db_url.replace("postgres://", "postgresql://", 1)
+            return db_url
         # Local fallback: build from individual parts
         import urllib.parse
         password = urllib.parse.quote_plus(self.DB_PASSWORD)
