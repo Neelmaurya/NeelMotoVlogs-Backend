@@ -26,5 +26,5 @@ COPY . .
 # Expose port 8000 for the FastAPI server
 EXPOSE 8000
 
-# Command to start the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Command to start the application (runs the admin seed script first)
+CMD ["sh", "-c", "python seed_admin.py && uvicorn main:app --host 0.0.0.0 --port 8000"]
