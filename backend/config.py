@@ -1,9 +1,11 @@
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
-load_dotenv()
-
+# Robustly find .env in the same directory as config.py
+env_path = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=env_path)
 class Settings(BaseSettings):
     # App Settings
     SECRET_KEY: str = os.getenv("SECRET_KEY", "super-secret-key-change-me")
