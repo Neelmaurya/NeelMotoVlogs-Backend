@@ -39,8 +39,6 @@ def process_story_part(part_id: int):
         
         # Step 3: Fetch video clips
         clips = fetch_videos_for_story(keywords, part.duration_secs, story.format)
-        if not clips:
-            raise ValueError("No matching stock video clips found for keywords.")
             
         part.status = "video_ready"
         db.commit()
