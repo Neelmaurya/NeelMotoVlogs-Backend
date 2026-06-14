@@ -16,14 +16,17 @@ venv/
 .env
 backend/.env
 
-# Database files
+# Database / cache dump files
 *.db
 *.sqlite3
 dump.rdb
 
-# Temp / generated files
+# Temp / generated test files
 backend/temp_audio/
 backend/test.jpg
+
+# Exclude frontend entirely (lives in NeelMotoVlogs-Frontend repo)
+frontend/
 
 # OS
 .DS_Store
@@ -31,6 +34,3 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Docker
-.dockerignore
